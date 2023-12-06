@@ -3,7 +3,7 @@
 from openai import OpenAI
 import streamlit as st
 
-st.sidebar.title('rChatbot 👾')
+st.sidebar.title('rChatBot 👾')
 
 # Get the OpenAI API token from the user
 input_key = st.sidebar.text_input('Enter OpenAI API token:', type='password')
