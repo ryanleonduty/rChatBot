@@ -16,7 +16,7 @@ with st.sidebar:
         st.success('Proceed to entering your prompt message!', icon='💁‍♂️')
     else:
     # Display a warning if the API key is not provided
-        st.warning('Please enter your credentials!', icon='👀')
+        st.warning('Please enter your key!', icon='👀')
 
 
 if "openai_model" not in st.session_state:
