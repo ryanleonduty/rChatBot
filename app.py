@@ -3,21 +3,34 @@
 from openai import OpenAI
 import streamlit as st
 
+# Function to check if the API key is valid
+def is_valid_api_key(api_key):
+    # Add more specific validation logic if needed
+    return len(api_key) == 64
+
+# Sidebar title
 with st.sidebar:
     st.title('rChatBot 👾')
-# Get the OpenAI API token from the user
-    input_key = st.sidebar.text_input('Enter OpenAI API token:', type='password')
-    if input_key:
-    # Check if the API key is provided
-        st.success('API key already provided!', icon='👍')
-    # Initialize the OpenAI client
-        client = OpenAI(api_key=input_key)
-    # Proceed to entering the prompt message
-        st.success('Proceed to entering your prompt message!', icon='💁‍♂️')
-    else:
-    # Display a warning if the API key is not provided
-        st.warning('Please enter your key!', icon='👀')
 
+    # Get the OpenAI API token from the user
+    input_key = st.sidebar.text_input('Enter OpenAI API token:', type='password')
+
+    # Check if the API key is provided and valid
+    if input_key and is_valid_api_key(input_key):
+        # Display a warning if the API key is too short
+        st.warning('Invalid API key. Please enter a valid API key!', icon='👀')
+    elif input_key:
+        # Initialize the OpenAI client
+        try:
+            client = OpenAI(api_key=input_key)
+            # Proceed to entering the prompt message
+            st.success('API key is valid. Proceed to entering your prompt message!', icon='💁‍♂️')
+        except Exception as e:
+            # Display a warning if there's an issue during initialization
+            st.warning(f'Error during OpenAI client initialization: {e}', icon='⚠️')
+    else:
+        # Display a message to enter the API key
+        st.warning('Please enter your OpenAI API key!', icon='👀')
 
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
